@@ -4,8 +4,7 @@ Name: Wansheng Wu
 28th March 2026  
 **Goal:** Fun memory matching game with persistent settings and best scores.
 
-**Live Demo:**https://your-live-site.com
-Git:https://github.com/wwu8739/emoji-memory-match
+**Live Demo:Git:https://github.com/wwu8739/emoji-memory-match
 
 **How to Play:** Flip cards to find matching emoji pairs. Lower attempts and time = better score.
 
