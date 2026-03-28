@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Memory Match</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/game.css">
+</head>
+<body class="bg-dark text-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">🐱‍👤 Matchy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><button onclick="resetGame()" class="btn btn-outline-light me-2">Reset</button></li>
+                    <li class="nav-item"><button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#howToPlayModal">How to Play</button></li>
+                    <li class="nav-item"><button class="btn btn-outline-light me-2" data-bs-toggle="modal" data-bs-target="#settingsModal">Settings</button></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <div class="card mb-4 bg-secondary border-0 shadow">
+                    <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
+                        <div>
+                            <h1 class="h3 mb-0" style="font-family: 'Press Start 2P', system-ui;">EMOJI MEMORY MATCH</h1>
+                            <p id="player-display" class="mb-0 text-warning">Player: Guest</p>
+                        </div>
+                        <div class="d-flex gap-4">
+                            <div class="text-center"><small class="text-muted">ATTEMPTS</small><div id="attempts-display" class="fs-3 fw-bold">0</div></div>
+                            <div class="text-center"><small class="text-muted">TIME</small><div id="time-display" class="fs-3 fw-bold">0s</div></div>
+                            <div class="text-center"><small class="text-muted">BEST</small><div id="best-display" class="fs-5 text-success">—</div></div>
+                        </div>
+                        <button onclick="resetGame()" class="btn btn-warning">NEW GAME</button>
+                    </div>
+                </div>
+
+                <div id="board" class="memory-board bg-secondary p-4 rounded-4 shadow"></div>
+                <div id="status" class="text-center mt-3 text-warning fw-bold fs-5"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- How to Play Modal -->
+    <div class="modal fade" id="howToPlayModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">How to Play</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Flip cards to reveal emojis.<br>Match all pairs as fast as possible!<br>Your best score is saved automatically.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Settings</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="settings-form" novalidate>
+                        <div class="mb-3">
+                            <label for="player-name" class="form-label">Player Name</label>
+                            <input type="text" class="form-control bg-secondary text-light" id="player-name" required minlength="3" maxlength="20">
+                            <div class="invalid-feedback">Name must be 3-20 characters long.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="difficulty" class="form-label">Difficulty</label>
+                            <select class="form-select bg-secondary text-light" id="difficulty">
+                                <option value="4">Easy (4 pairs)</option>
+                                <option value="6" selected>Medium (6 pairs)</option>
+                                <option value="8">Hard (8 pairs)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="theme" class="form-label">Theme</label>
+                            <select class="form-select bg-secondary text-light" id="theme">
+                                <option value="animals" selected>Animals</option>
+                                <option value="foods">Foods</option>
+                                <option value="faces">Faces</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Save Settings</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Win Modal -->
+    <div class="modal fade" id="winModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-success text-light">
+                <div class="modal-body text-center py-5">
+                    <h2>🎉 YOU WIN!</h2>
+                    <p id="win-stats" class="fs-5"></p>
+                    <button onclick="resetGame(); bootstrap.Modal.getInstance(document.getElementById('winModal')).hide()" class="btn btn-light">Play Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-black py-3 text-center small">
+        <div class="container">
+            <a href="https://github.com/wwu8739" class="text-light mx-2">Developer Profile</a>
+            <a href="https://github.com/wwu8739/emoji-memory-match" class="text-light mx-2">Source Code</a>
+            <a href="https://validator.w3.org/nu/?doc=https://wwu8739.github.io/emoji-memory-match/" target="_blank" class="text-light mx-2">HTML Validator</a>
+            <a href="https://wave.webaim.org/report#/https://wwu8739.github.io/emoji-memory-match/" target="_blank" class="text-light mx-2">WAVE Accessibility</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="scripts/app.js"></script>
+</body>
+</html>
